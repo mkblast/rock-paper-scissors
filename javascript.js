@@ -1,5 +1,5 @@
-let playerScore = 0;
-let computerScore = 0;
+let playerScore = 0
+let pcScore = 0
 
 function computerPlay() {
     let number = Math.floor(Math.random() * 3 + 1);
@@ -13,50 +13,57 @@ function computerPlay() {
     }
 }
 
-function mainGame(playerSelection, computerSelection) {
-    if (playerSelection === computerSelection) {
-        console.log(`It's a drow: the player and the pc have ${playerSelection}`);
+function mainGame(player ,pc) {
+    if (player === pc) {
+      return(`It's a drow: the player and the pc have ${player}`);
 
-    } else if (playerSelection === "rock" && computerSelection == "paper") {
-        console.log(`You Lose! ${computerSelection} beats ${playerSelection}`)
-        computerScore++;
+    } else if (player === "rock" && pc == "paper") {
+      pcScore++;
+      return(`You Lose! ${pc} beats ${player}`)
 
-    } else if (playerSelection === "paper" && computerSelection == "scissors") {
-        console.log(`You Lose! ${computerSelection} beats ${playerSelection}`)
-        computerScore++;
+    } else if (player === "paper" && pc == "scissors") {
+      pcScore++;
+      return(`You Lose! ${pc} beats ${player}`)
 
-    } else if (playerSelection === "scissors" && computerSelection == "rock") {
-        console.log(`You Lose! ${computerSelection} beats ${playerSelection}`)
-        computerScore++;
+    } else if (player === "scissors" && pc == "rock") {
+      pcScore++;
+      return(`You Lose! ${pc} beats ${player}`)
 
-    } else if (playerSelection === "rock" && computerSelection == "scissors") {
-        console.log(`You win! ${playerSelection} beats ${computerSelection}`)
-        playerScore++;
+    } else if (player === "rock" && pc == "scissors") {
+      playerScore++;
+      return(`You win! ${player} beats ${pc}`)
 
-    } else if (playerSelection === "paper" && computerSelection == "rock") {
-        console.log(`You win! ${playerSelection} beats ${computerSelection}`)
-        playerScore++;
+    } else if (player === "paper" && pc == "rock") {
+      playerScore++;
+      return(`You win! ${player} beats ${pc}`)
 
-    } else if (playerSelection === "scissors" && computerSelection == "paper") {
-        console.log(`You win! ${playerSelection} beats ${computerSelection}`)
-        playerScore++;
+    } else if (player === "scissors" && pc == "paper") {
+      playerScore++;
+      return(`You win! ${player} beats ${pc}`)
     }
 }
 
-function roundCount() {
-    for (let counter = 1; counter <= 5; counter++) {
-        let playerSelection = prompt("choose something to play with: ").toLowerCase();
-        mainGame(playerSelection, computerPlay());
-    }
+const buttonsPress = document.querySelectorAll('.btn');
+const winner = document.querySelector('.winner')
+const score = document.querySelector('.score')
 
-    if (playerScore > computerScore) {
-        console.log("Player wins!");
-    } else if (playerScore < computerScore) {
-        console.log("computer wins!")
-    } else {
-        console.log("its a drow!")
-    }
+buttonsPress.forEach((button) => {
+  button.addEventListener('click', () => {
+    winner.textContent = mainGame(button.textContent, computerPlay())
+    countGame();
+  })
+})
 
+function countGame() {
+  if (playerScore === 5) {
+    winner.textContent = 'YOU WIN!!!'
+    score.textContent = ''
+    playerScore = pcScore = 0
+  } else if (pcScore === 5){
+    winner.textContent = 'YOU LOSS!!!'
+    score.textContent = ''
+    playerScore = pcScore = 0
+  } else {
+    score.textContent = `You: ${playerScore} PC: ${pcScore}`
+  }
 }
-
-roundCount();
